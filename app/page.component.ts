@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { PageService } from './page.service';
@@ -12,12 +12,12 @@ import 'rxjs/add/operator/switchMap';
 })
 export class PageComponent implements OnInit  {
   page: any;
-  
+
   constructor(
     private pageService: PageService,
     private route: ActivatedRoute
   ) {}
-  
+
   ngOnInit(): void {
     this.route.params.switchMap((params: Params) =>
       this.pageService.get(params['tag'])
