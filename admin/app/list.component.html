@@ -1,0 +1,17 @@
+<h1>List of Pages</h1>
+<ul>
+  <li *ngFor="let page of pages">
+    <a href="#" (click)="onSelect(page); false">{{page.name}}</a>
+    <button class="delete" (click)="delete(page)">x</button>
+  </li>
+</ul>
+<div *ngIf="selectedPage">
+  <h2>{{selectedPage.name}}</h2>
+  <p>Page name: <input [(ngModel)]="selectedPage.name"></p>
+  <p>Page to look like: <input [(ngModel)]="selectedPage.pretend"></p>
+  <p>Page to redirect to: <input [(ngModel)]="selectedPage.redirect"></p>
+  <button (click)="save()">Save</button>
+</div>
+<p>{{message}}</p>
+<button (click)="goToCreate()">Create</button>
+<button (click)="test()">Test</button>

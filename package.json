@@ -3,13 +3,18 @@
   "version": "1.0.0",
   "description": "Generates pages that pretend to be other pages",
   "scripts": {
-    "start": "concurrently \"nodemon index.js -i static\" \"cd static && tsc && concurrently \\\"tsc -w\\\" \\\"browser-sync start --proxy localhost:8080 --files \\\\\\\"*.html, *.css, app/*.js\\\\\\\"\\\"\""
+    "start": "concurrently \"nodemon index.js -i admin\" \"cd admin && tsc -w\" \"browser-sync start --proxy localhost:8080 --files \\\"views/*, admin/*.html, admin/*.css, admin/app/*.js, admin/app/*.html\\\"\"",
+    "test": "cd static && npm test",
+    "e2e": "cd static && npm run e2e",
+    "lint": "cd static && npm run lint"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.14.0"
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "pug": "^2.0.0-beta6"
   },
   "devDependencies": {
     "concurrently": "^3.1.0"

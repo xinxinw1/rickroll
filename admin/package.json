@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Generates pages that pretend to be other pages",
   "scripts": {
-    "start": "tsc && concurrently \"tsc -w\" \"lite-server\"",
+    "start": "tsc && concurrently \"tsc -w\" \"browser-sync start --proxy localhost:8080 --files \\\"*.html, *.css, app/*.js\\\"\"",
     "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
     "lint": "tslint ./app/**/*.ts -t verbose",
     "lite": "lite-server",
