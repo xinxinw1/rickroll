@@ -20,7 +20,7 @@ export class PageService {
   }
 
   create(name: string, pretend: string, redirect: string): Promise<void> {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (pages[name]) {
         reject('Error: already exists');
       } else {
