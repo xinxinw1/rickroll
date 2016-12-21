@@ -1,7 +1,12 @@
-<h1>Link Generator</h1>
-<p>Page name: <input #pageName></p>
-<p>Page to look like: <input #pagePretend></p>
-<p>Page to redirect to: <input #pageDest></p>
-<input type="submit" (click)="create(pageName.value, pagePretend.value, pageDest.value)">
+<h2>Create page</h2>
+<p>Page name:</p>
+<p class="input"><input type="text" #pageName></p>
+<p>Page to look like:</p>
+<p class="input"><input type="text" #pagePretend></p>
+<p>Page to redirect to:</p>
+<p class="input"><input type="text" #pageDest></p>
+<p>
+  <input type="submit" (click)="create(pageName.value, pagePretend.value, pageDest.value)" value="Create">
+  <button (click)="back()">Back</button>
+</p>
 <p>{{message}}</p>
-<button (click)="back()">Back</button>

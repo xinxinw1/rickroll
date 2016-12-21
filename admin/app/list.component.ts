@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageService } from './page.service';
+import { MessageService } from './message.service';
 
 import { Page } from './page';
 
@@ -13,15 +14,21 @@ export class ListComponent implements OnInit {
   pages: Page[];
   origName: string;
   selectedPage: Page;
-  message: string;
+  messageList: string;
+  messageEdit: string;
 
   constructor(
     private router: Router,
-    private pageService: PageService
+    private pageService: PageService,
+    private messageService: MessageService
   ) {}
   
   ngOnInit(): void {
     this.getPages();
+    if (this.messageService.isset('message')){
+      this.messageList = this.messageService.get('message');
+      this.messageService.clear('message');
+    }
   }
   
   getPages(): void {
@@ -38,13 +45,22 @@ export class ListComponent implements OnInit {
     this.origName = page.name;
   }
   
+  clearMessages(): void {
+    this.messageList = undefined;
+    this.messageEdit = undefined;
+  }
+  
   save(): void {
     this.pageService.update(this.origName, this.selectedPage)
       .then(mess => {
         this.origName = this.selectedPage.name;
-        this.message = mess;
+        this.clearMessages();
+        this.messageEdit = mess;
       })
-      .catch(err => this.message = `Fail! ${err}`);
+      .catch(err => {
+        this.clearMessages();
+        this.messageEdit = `Fail! ${err}`;
+      });
   }
   
   delete(page: Page): void {
@@ -54,10 +70,14 @@ export class ListComponent implements OnInit {
           this.origName = undefined;
           this.selectedPage = undefined;
         }
-        this.message = mess;
+        this.clearMessages();
+        this.messageList = mess;
         this.getPages();
       })
-      .catch(err => this.message = `Fail! ${err}`);
+      .catch(err => {
+        this.clearMessages()
+        this.messageList = `Fail! ${err}`;
+      });
   }
   
   goToCreate(): void {

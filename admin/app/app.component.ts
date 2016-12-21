@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   moduleId: module.id,
   selector: 'my-app',
   template: `
-    <h1>Hey!</h1>
+    <h1>Prank page creator</h1>
     <router-outlet></router-outlet>
   `
 })

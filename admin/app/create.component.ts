@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { PageService } from './page.service';
+import { MessageService } from './message.service';
 
 @Component({
   moduleId: module.id,
@@ -14,6 +15,7 @@ export class CreateComponent {
   constructor(
     private router: Router,
     private pageService: PageService,
+    private messageService: MessageService,
     private location: Location
   ) {}
 
@@ -23,7 +25,10 @@ export class CreateComponent {
       return;
     }
     this.pageService.create(name, pretend, redirect)
-      .then(mess => this.router.navigate(['/list']))
+      .then(mess => {
+        this.messageService.set('message', mess);
+        this.router.navigate(['/list']);
+      })
       .catch(err => this.message = `Fail! ${err.text()}`);
   }
   

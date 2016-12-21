@@ -92,6 +92,18 @@ pages.add({
   redirect: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
 });
 
+pages.add({
+  name: 'testing',
+  pretend: 'https://www.youtube.com/watch?v=WSUFzC6_fp8',
+  redirect: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+});
+
+pages.add({
+  name: 'ayyyy-lmao',
+  pretend: 'https://www.youtube.com/watch?v=WSUFzC6_fp8',
+  redirect: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+});
+
 function getPage(name){
   console.log("getting page", name);
   return new Promise((resolve, reject) => {
