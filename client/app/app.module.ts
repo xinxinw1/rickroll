@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
+
 import { AppComponent }  from './app.component';
 import { CreateComponent } from './create.component';
 import { ListComponent } from './list.component';
@@ -9,30 +10,14 @@ import { ListComponent } from './list.component';
 import { PageService } from './page.service';
 import { MessageService } from './message.service';
 
-import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/list',
-    pathMatch: 'full'
-  },
-  {
-    path: 'create',
-    component: CreateComponent
-  },
-  {
-    path: 'list',
-    component: ListComponent
-  }
-];
+import { routing } from './app.routing';
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    routing
   ],
   declarations: [
     AppComponent,
@@ -43,6 +28,8 @@ const routes: Routes = [
     PageService,
     MessageService
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }

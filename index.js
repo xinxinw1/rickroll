@@ -1,5 +1,3 @@
-/* Load libraries */
-
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -179,7 +177,7 @@ function deletePage(name){
 
 /* Route for get */
 
-app.get('/r-admin/get/:tag', function (req, res){
+app.get('/api/get/:tag', function (req, res){
   getPage(req.params.tag)
     .then(page => res.json(page))
     .catch(err => {
@@ -188,7 +186,7 @@ app.get('/r-admin/get/:tag', function (req, res){
     });
 });
 
-app.get('/r-admin/getAll', function (req, res){
+app.get('/api/getAll', function (req, res){
   getAll()
     .then(pages => res.json(pages))
     .catch(err => {
@@ -199,7 +197,7 @@ app.get('/r-admin/getAll', function (req, res){
 
 app.use(bodyParser.json());
 
-app.post('/r-admin/create', function (req, res){
+app.post('/api/create', function (req, res){
   console.log("post to create", req.body);
   createPage(req.body.name, req.body.pretend, req.body.redirect)
     .then(mess => res.send(mess))
@@ -209,7 +207,7 @@ app.post('/r-admin/create', function (req, res){
     });
 });
 
-app.post('/r-admin/update', function (req, res){
+app.post('/api/update', function (req, res){
   console.log("post to update", req.body);
   updatePage(req.body.origName, req.body.page)
     .then(mess => res.send(mess))
@@ -219,7 +217,7 @@ app.post('/r-admin/update', function (req, res){
     });
 });
 
-app.post('/r-admin/delete', function (req, res){
+app.post('/api/delete', function (req, res){
   console.log("post to delete", req.body);
   deletePage(req.body.name)
     .then(mess => res.send(mess))
@@ -229,20 +227,17 @@ app.post('/r-admin/delete', function (req, res){
     });
 });
 
+/* Route for static pages */
+
+app.use(express.static(__dirname + '/dist/client'));
+
 /* Route for page */
 
-app.get('/r/:tag', function (req, res, next){
+app.get('/:tag', function (req, res, next){
+  console.log("getting tag", req.params.tag);
   getPage(req.params.tag)
     .then(page => res.render('page', page))
     .catch(err => next());
-});
-
-/* Route for static pages */
-
-app.use('/r-admin', express.static(__dirname + '/admin'));
-
-app.get(['/r-admin/create', '/r-admin/list'], function (req, res){
-  res.sendFile(__dirname + '/admin/index.html');
 });
 
 /* Listen on port or export app */

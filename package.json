@@ -3,21 +3,34 @@
   "version": "1.0.0",
   "description": "Generates pages that pretend to be other pages",
   "scripts": {
-    "start": "concurrently \"nodemon index.js -i admin\" \"cd admin && tsc -w\" \"browser-sync start --proxy localhost:8080 --files \\\"views/*, admin/*.html, admin/*.css, admin/app/*.js, admin/app/*.html\\\"\"",
-    "test": "cd static && npm test",
-    "e2e": "cd static && npm run e2e",
-    "lint": "cd static && npm run lint"
+    "start": "nodemon index.js",
+    "build": "ng build --prod --output-path=dist/client"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@angular/common": "^2.4.1",
+    "@angular/compiler": "^2.4.1",
+    "@angular/core": "^2.4.1",
+    "@angular/forms": "^2.4.1",
+    "@angular/http": "^2.4.1",
+    "@angular/platform-browser": "^2.4.1",
+    "@angular/platform-browser-dynamic": "^2.4.1",
+    "@angular/router": "^3.4.1",
+    "@types/body-parser": "0.0.33",
+    "@types/express": "^4.0.32",
+    "@types/node": "^6.0.48",
+    "angular-cli": "1.0.0-beta.24",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "pug": "^2.0.0-beta6"
+    "pug": "^2.0.0-beta6",
+    "rxjs": "^5.0.2",
+    "zone.js": "0.7.4"
   },
   "devDependencies": {
-    "concurrently": "^3.1.0"
+    "concurrently": "^3.1.0",
+    "typescript": "~2.0.10"
   },
   "repository": {}
 }

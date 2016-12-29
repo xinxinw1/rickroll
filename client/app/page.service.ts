@@ -18,7 +18,7 @@ export class PageService {
   
   getPages(): Promise<Page[]> {
     return this.http
-      .get('getAll')
+      .get('api/getAll')
       .toPromise()
       .then(res => res.json() as Page[])
       .catch(this.handleError);
@@ -28,7 +28,7 @@ export class PageService {
 
   create(name: string, pretend: string, redirect: string): Promise<string> {
     return this.http
-      .post('create', JSON.stringify({
+      .post('api/create', JSON.stringify({
         name: name,
         pretend: pretend,
         redirect: redirect
@@ -40,8 +40,8 @@ export class PageService {
   
   update(origName: string, page: Page): Promise<string> {
     return this.http
-      .post('update', JSON.stringify({
-        origName: origName
+      .post('api/update', JSON.stringify({
+        origName: origName,
         page: page
       }), {headers: this.headers})
       .toPromise()
@@ -51,7 +51,7 @@ export class PageService {
   
   delete(name: string): Promise<string> {
     return this.http
-      .post('delete', JSON.stringify({
+      .post('api/delete', JSON.stringify({
         name: name
       }), {headers: this.headers})
       .toPromise()
@@ -62,12 +62,5 @@ export class PageService {
   private handleError(error: any): Promise<void> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
-  }
-  
-  test(): any {
-    return this.http.get('https://www.youtube.com/')
-      .toPromise()
-      .then(res => console.log(res))
-      .catch(this.handleError);
   }
 }

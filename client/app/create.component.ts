@@ -5,9 +5,8 @@ import { PageService } from './page.service';
 import { MessageService } from './message.service';
 
 @Component({
-  moduleId: module.id,
   selector: 'my-create',
-  templateUrl: 'create.component.html',
+  templateUrl: './create.component.html',
 })
 export class CreateComponent {
   message: string;

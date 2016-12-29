@@ -6,9 +6,8 @@ import { MessageService } from './message.service';
 import { Page } from './page';
 
 @Component({
-  moduleId: module.id,
   selector: 'my-list',
-  templateUrl: 'list.component.html',
+  templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
   pages: Page[];
@@ -82,9 +81,5 @@ export class ListComponent implements OnInit {
   
   goToCreate(): void {
     this.router.navigate(['/create']);
-  }
-  
-  test(): any {
-    this.pageService.test();
   }
 }
