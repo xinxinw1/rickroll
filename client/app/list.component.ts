@@ -24,10 +24,7 @@ export class ListComponent implements OnInit {
   
   ngOnInit(): void {
     this.getPages();
-    if (this.messageService.isset('message')){
-      this.messageList = this.messageService.get('message');
-      this.messageService.clear('message');
-    }
+    this.messageList = this.messageService.collect('message');
   }
   
   getPages(): void {
@@ -36,6 +33,12 @@ export class ListComponent implements OnInit {
         console.log("got pages");
         console.log(pages);
         this.pages = pages;
+      })
+      .catch(err => {
+        if (err == "Invalid token"){
+          this.loginExpired();
+          return;
+        }
       });
   }
   
@@ -57,8 +60,12 @@ export class ListComponent implements OnInit {
         this.messageEdit = mess;
       })
       .catch(err => {
+        if (err == "Invalid token"){
+          this.loginExpired();
+          return;
+        }
         this.clearMessages();
-        this.messageEdit = `Fail! ${err}`;
+        this.messageEdit = `Failed to save! ${err}`;
       });
   }
   
@@ -74,9 +81,22 @@ export class ListComponent implements OnInit {
         this.getPages();
       })
       .catch(err => {
+        if (err == "Invalid token"){
+          this.loginExpired();
+          return;
+        }
         this.clearMessages()
         this.messageList = `Fail! ${err}`;
       });
+  }
+  
+  loginExpired(): void {
+    this.messageService.set('message', 'Login expired');
+    this.logout();
+  }
+  
+  logout(): void {
+    this.router.navigate(['/login']);
   }
   
   goToCreate(): void {

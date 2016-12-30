@@ -2,12 +2,47 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
+var jwt = require('jsonwebtoken');
+var jwtVerify = require('express-jwt');
+
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 /* Define variables */
 
 app.set('port', process.env.PORT || 8080);
 app.set('hostname', process.env.HOSTNAME || undefined);
 app.set('views', __dirname + '/views')
 app.set('view engine', 'pug');
+app.set('secret', process.env.SECRET || 'a secret');
+
+var jwtMiddle = jwtVerify({ secret: app.get('secret') });
+
+/* Users */
+
+var users = {};
+
+bcrypt.hash("password", saltRounds)
+  .then(function (hash){
+    users["secret2008"] = hash;
+  });
+
+function getHash(username){
+  return new Promise((resolve, reject) => {
+    if (!users[username])reject(false);
+    else resolve(users[username]);
+  });
+}
+  
+function authUser(username, password){
+  if (!username || !password)return Promise.reject(false);
+  return getHash(username)
+    .then(hash => bcrypt.compare(password, hash))
+    .then(b => {
+      if (b) return Promise.resolve(b);
+      return Promise.reject(b);
+    });
+}
 
 /* Data */
 
@@ -134,14 +169,18 @@ function createPage(name, pretend, redirect){
     if (!name || !pretend || !redirect){
       reject('Invalid input');
     } else {
+      let token = jwt.sign({
+        name: name
+      }, app.get('secret'));
       let item = pages.add({
         name: name,
         pretend: pretend,
-        redirect: redirect
+        redirect: redirect,
+        token: token
       });
       console.log("item", item);
       if (item){
-        resolve('Created');
+        resolve({message: 'Created', token: token});
       } else {
         reject('Already exists');
       }
@@ -186,7 +225,7 @@ app.get('/api/get/:tag', function (req, res){
     });
 });
 
-app.get('/api/getAll', function (req, res){
+app.get('/api/getAll', jwtMiddle, function (req, res){
   getAll()
     .then(pages => res.json(pages))
     .catch(err => {
@@ -200,15 +239,20 @@ app.use(bodyParser.json());
 app.post('/api/create', function (req, res){
   console.log("post to create", req.body);
   createPage(req.body.name, req.body.pretend, req.body.redirect)
-    .then(mess => res.send(mess))
+    .then(json => res.json(json))
     .catch(err => {
       res.status(409);
       res.send(err);
     });
 });
 
-app.post('/api/update', function (req, res){
-  console.log("post to update", req.body);
+app.post('/api/update', jwtMiddle, function (req, res){
+  console.log("post to update", req.body, req.user);
+  if (!req.user.name || req.user.name != req.body.origName){
+    res.status(401);
+    res.send('Invalid token');
+    return;
+  }
   updatePage(req.body.origName, req.body.page)
     .then(mess => res.send(mess))
     .catch(err => {
@@ -217,14 +261,39 @@ app.post('/api/update', function (req, res){
     });
 });
 
-app.post('/api/delete', function (req, res){
-  console.log("post to delete", req.body);
+app.post('/api/delete', jwtMiddle, function (req, res){
+  console.log("post to delete", req.body, req.user);
+  if (!req.user.name || req.user.name != req.body.name){
+    res.status(401);
+    res.send('Invalid token');
+    return;
+  }
   deletePage(req.body.name)
     .then(mess => res.send(mess))
     .catch(err => {
       res.status(404);
       res.send(err);
     });
+});
+
+app.post('/api/auth', function (req, res){
+  console.log("auth", req.body);
+  authUser(req.body.username, req.body.password)
+    .then(bool => res.json({
+        token: jwt.sign({
+          username: req.body.username
+        }, app.get('secret'), { expiresIn: 60 * 2 })
+      }))
+    .catch(err => {
+      res.status(401);
+      res.send('Invalid username or password');
+    });
+});
+
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401).send('Invalid token');
+  }
 });
 
 /* Route for static pages */

@@ -6,9 +6,14 @@ import { HttpModule }    from '@angular/http';
 import { AppComponent }  from './app.component';
 import { CreateComponent } from './create.component';
 import { ListComponent } from './list.component';
+import { LoginComponent } from './login.component';
+import { ViewComponent } from './view.component';
 
 import { PageService } from './page.service';
+import { LocalPageService } from './localpage.service';
 import { MessageService } from './message.service';
+import { AuthService } from './auth.service';
+import { AuthGuard } from './auth.guard';
 
 import { routing } from './app.routing';
 
@@ -22,11 +27,16 @@ import { routing } from './app.routing';
   declarations: [
     AppComponent,
     CreateComponent,
-    ListComponent
+    ListComponent,
+    LoginComponent,
+    ViewComponent
   ],
   providers: [
     PageService,
-    MessageService
+    LocalPageService,
+    MessageService,
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [
     AppComponent

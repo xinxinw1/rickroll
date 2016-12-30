@@ -21,4 +21,13 @@ export class MessageService {
   isset(name: string): boolean {
     return this.mess[name] !== undefined;
   }
+  
+  collect(name: string): any {
+    if (this.isset(name)){
+      let m = this.get(name);
+      this.clear(name);
+      return m;
+    }
+    return null;
+  }
 }

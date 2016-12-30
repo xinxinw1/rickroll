@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+
 import { PageService } from './page.service';
+import { LocalPageService } from './localpage.service';
 import { MessageService } from './message.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'my-create',
@@ -14,7 +17,9 @@ export class CreateComponent {
   constructor(
     private router: Router,
     private pageService: PageService,
+    private localPageService: LocalPageService,
     private messageService: MessageService,
+    private authService: AuthService,
     private location: Location
   ) {}
 
@@ -24,11 +29,12 @@ export class CreateComponent {
       return;
     }
     this.pageService.create(name, pretend, redirect)
-      .then(mess => {
-        this.messageService.set('message', mess);
-        this.router.navigate(['/list']);
+      .then(obj => {
+        this.messageService.set('message', obj['message']);
+        this.localPageService.set(name, obj['token']);
+        this.router.navigate(['/view', name]);
       })
-      .catch(err => this.message = `Fail! ${err.text()}`);
+      .catch(err => this.message = `Fail! ${err}`);
   }
   
   back(): void {
