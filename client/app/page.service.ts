@@ -40,7 +40,7 @@ export class PageService {
       .catch(this.handleError);
   }
   
-  create(name: string, pretend: string, redirect: string): Promise<string> {
+  create(name: string, pretend: string, redirect: string): Promise<any> {
     return this.http
       .post('api/create', JSON.stringify({
         name: name,
@@ -52,14 +52,14 @@ export class PageService {
       .catch(this.handleError);
   }
   
-  update(origName: string, page: Page, token: string = this.authService.token): Promise<string> {
+  update(origName: string, page: Page, token: string = this.authService.token): Promise<any> {
     return this.http
       .post('api/update', JSON.stringify({
         origName: origName,
         page: page
       }), {headers: this.getHeadersToken(token)})
       .toPromise()
-      .then(res => res.text())
+      .then(res => res.json())
       .catch(this.handleError);
   }
   

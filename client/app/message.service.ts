@@ -23,6 +23,7 @@ export class MessageService {
   }
   
   collect(name: string): any {
+    console.log("collecting", name);
     if (this.isset(name)){
       let m = this.get(name);
       this.clear(name);

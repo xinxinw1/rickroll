@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
   selector: 'my-create',
   templateUrl: './create.component.html',
 })
-export class CreateComponent {
+export class CreateComponent implements OnInit {
   message: string;
 
   constructor(
@@ -22,6 +22,10 @@ export class CreateComponent {
     private authService: AuthService,
     private location: Location
   ) {}
+  
+  ngOnInit(): void {
+    this.message = this.messageService.collect('message');
+  }
 
   create(name: string, pretend: string, redirect: string): void {
     if (!name || !pretend || !redirect) {
@@ -30,8 +34,8 @@ export class CreateComponent {
     }
     this.pageService.create(name, pretend, redirect)
       .then(obj => {
-        this.messageService.set('message', obj['message']);
-        this.localPageService.set(name, obj['token']);
+        this.messageService.set('message', obj.message);
+        this.localPageService.set(name, obj.token);
         this.router.navigate(['/view', name]);
       })
       .catch(err => this.message = `Fail! ${err}`);

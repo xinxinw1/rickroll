@@ -24,9 +24,17 @@ export class LocalPageService {
     return val;
   }
   
-  clear(name: string): any {
+  remove(name: string): any {
     let val = this.pages[name];
     delete this.pages[name];
+    this.save();
+    return val;
+  }
+  
+  renameAndSet(origName: string, name: string, val: any): any {
+    console.log("rename and set", origName, name, val);
+    delete this.pages[origName];
+    this.pages[name] = val;
     this.save();
     return val;
   }

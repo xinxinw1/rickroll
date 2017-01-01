@@ -34,19 +34,30 @@ export class ViewComponent implements OnInit {
             this.page = page;
             this.origName = page.name;
             this.token = this.localPageService.get(page.name);
+            this.message = this.messageService.collect('message');
           })
           .catch(err => {
+            this.page = null;
+            this.origName = null;
+            this.token = null;
             this.message = err;
+            this.localPageService.remove(params['tag']);
           });
       });
-    this.message = this.messageService.collect('message');
   }
   
   save(): void {
     this.pageService.update(this.origName, this.page, this.token)
-      .then(mess => {
-        this.origName = this.page.name;
-        this.message = mess;
+      .then(obj => {
+        if (this.origName != this.page.name){
+          this.messageService.set('message', obj.message);
+          this.localPageService.renameAndSet(this.origName, this.page.name, obj.token);
+          this.router.navigate(['/view', this.page.name]);
+        } else {
+          this.origName = this.page.name;
+          this.message = obj.message;
+          this.token = obj.token;
+        }
       })
       .catch(err => {
         this.message = `Failed to save! ${err}`;
@@ -56,6 +67,7 @@ export class ViewComponent implements OnInit {
   delete(): void {
     this.pageService.delete(this.origName, this.token)
       .then(mess => {
+        this.localPageService.remove(this.origName);
         this.messageService.set('message', mess);
         this.router.navigate(['/create']);
       })
