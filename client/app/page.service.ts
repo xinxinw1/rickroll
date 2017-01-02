@@ -40,12 +40,11 @@ export class PageService {
       .catch(this.handleError);
   }
   
-  create(name: string, pretend: string, redirect: string): Promise<any> {
+  create(name: string, pretend: string): Promise<any> {
     return this.http
       .post('api/create', JSON.stringify({
         name: name,
-        pretend: pretend,
-        redirect: redirect
+        pretend: pretend
       }), {headers: this.getHeaders()})
       .toPromise()
       .then(res => res.json())

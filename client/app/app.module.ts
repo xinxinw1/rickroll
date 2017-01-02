@@ -1,6 +1,6 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 
 import { AppComponent }  from './app.component';
@@ -17,11 +17,15 @@ import { AuthGuard } from './auth.guard';
 
 import { routing } from './app.routing';
 
+import { ClipboardModule } from 'ngx-clipboard';
+
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
+    ReactiveFormsModule,
+    ClipboardModule,
     routing
   ],
   declarations: [

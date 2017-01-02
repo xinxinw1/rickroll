@@ -92,7 +92,7 @@ function getAll(){
   });
 }
 
-function createPage(name, pretend, redirect){
+function createPage(name, pretend, redirect = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'){
   console.log("creating page", name);
   return new Promise((resolve, reject) => {
     if (!name || !pretend || !redirect){
