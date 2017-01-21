@@ -1,7 +1,7 @@
 require('../resetdb.mocha');
 var should = require('should');
 
-var db = require('../../models');
+var db = require('../../helpers/db');
 
 describe('Page Model', () => {
   it('should be able to get a page', () => {

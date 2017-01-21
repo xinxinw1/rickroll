@@ -45,6 +45,7 @@
     "normalize-url": "^1.8.0",
     "pow-mongodb-fixtures": "^0.14.0",
     "should": "^11.1.2",
+    "supertest": "^2.0.1",
     "typescript": "~2.0.10"
   },
   "repository": {}

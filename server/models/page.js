@@ -1,6 +1,6 @@
 'use strict';
 
-var mongoose = require('./mongoose');
+var mongoose = require('../helpers/mongoose');
 var co = require('co');
 
 var PageSchema = new mongoose.Schema({
@@ -19,25 +19,19 @@ var PageSchema = new mongoose.Schema({
   }
 });
 
-exports.PageSchema = PageSchema;
-
 var Page = mongoose.model('Page', PageSchema);
-
-exports.Page = Page;
 
 /* Data */
 
 // returns a promise of a page
-function _create(name, pretend, redirect = config.redirectUrl){
-  //console.log('creating page', name, pretend, redirect);
+function _create(name, pretend, redirect){
+  console.log('creating page', name, pretend, redirect);
   return _save(new Page({
     name: name,
     pretend: pretend,
     redirect: redirect
   }));
 }
-
-exports.create = _create;
 
 function _get(name){
   //console.log('getting page', name);
@@ -57,8 +51,6 @@ function _get(name){
     });
 }
 
-exports.get = _get;
-
 function _getAll(){
   //console.log('getting all pages');
   return Page.find()
@@ -72,13 +64,11 @@ function _getAll(){
     });
 }
 
-exports.getAll = _getAll;
-
 function _save(page){
-  //console.log('saving page', page);
+  console.log('saving page', page);
   return page.save()
     .catch(err => {
-      //console.log('save page error', err);
+      console.log('save page error', err);
       if (err.code && err.code == 11000){
         throw {error: err, message: 'Name already exists'};
       } else {
@@ -86,12 +76,10 @@ function _save(page){
       }
     })
     .then(res => {
-      //console.log('saved page', res);
+      console.log('saved page', res);
       return res;
     });
 }
-
-exports.save = _save;
 
 function _delete(page){
   //console.log('deleting page', page);
@@ -105,8 +93,6 @@ function _delete(page){
       return res;
     });
 }
-
-exports.delete = _delete;
 
 function _deleteByName(name){
   //console.log('deleting page by name', name);
@@ -126,4 +112,13 @@ function _deleteByName(name){
     });
 }
 
-exports.deleteByName = _deleteByName;
+module.exports = {
+  PageSchema: PageSchema,
+  Page: Page,
+  create: _create,
+  get: _get,
+  getAll: _getAll,
+  save: _save,
+  delete: _delete,
+  deleteByName: _deleteByName
+};

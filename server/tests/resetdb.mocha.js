@@ -1,6 +1,6 @@
 var config = require('../config');
 var fixturesModule = require('pow-mongodb-fixtures')
-var db = require('../models');
+var db = require('../helpers/db');
 
 var data = require('./testdb');
 
