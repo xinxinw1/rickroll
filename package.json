@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Generates pages that pretend to be other pages",
   "scripts": {
-    "start": "nodemon index.js",
-    "build": "ng build --dev --watch --output-path=dist/client"
+    "start": "nodemon server/index.js",
+    "build": "ng build --dev --watch --output-path=dist/client",
+    "test": "NODE_ENV=testing mocha --recursive server/tests"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,7 @@
     "html-metadata": "^1.6.2",
     "jsonwebtoken": "^7.2.1",
     "mongodb": "^2.2.16",
+    "mongoose": "^4.7.6",
     "ng-validators": "^0.2.0",
     "ngx-clipboard": "^3.0.1",
     "pug": "^2.0.0-beta6",
@@ -38,8 +40,12 @@
   },
   "devDependencies": {
     "concurrently": "^3.1.0",
-    "typescript": "~2.0.10",
-    "normalize-url": "^1.8.0"
+    "mocha": "^3.2.0",
+    "node-mongoose-fixtures": "^0.2.4",
+    "normalize-url": "^1.8.0",
+    "pow-mongodb-fixtures": "^0.14.0",
+    "should": "^11.1.2",
+    "typescript": "~2.0.10"
   },
   "repository": {}
 }

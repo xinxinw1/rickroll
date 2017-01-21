@@ -1,0 +1,14 @@
+{
+  "pages": [
+    {
+      "name": "a",
+      "pretend": "b",
+      "redirect": "c"
+    },
+    {
+      "name": "d",
+      "pretend": "e",
+      "redirect": "f"
+    }
+  ]
+}
