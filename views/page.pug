@@ -42,7 +42,13 @@ html(lang=metadata.general && metadata.general.lang)
       if metadata.openGraph.description
         meta(property="og:description" content=metadata.openGraph.description)
       if metadata.openGraph.type
-      meta(property="og:type", content=metadata.openGraph.type)
+        meta(property="og:type", content=metadata.openGraph.type)
+      if metadata.openGraph.updated_time
+        meta(property="og:updated_time", content=metadata.openGraph.published_time)
+      if metadata.openGraph.published_time
+        meta(property="article:published_time", content=metadata.openGraph.published_time)
+      if metadata.openGraph.modified_time
+        meta(property="article:modified_time", content=metadata.openGraph.modified_time)
     
     if metadata.twitter
       meta(name="twitter:card", content="summary")
