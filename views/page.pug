@@ -1,13 +1,14 @@
 mixin schema(item, prop)
-  div(itemprop=prop, itemscope, itemtype=item.type.join(" "))
-    each vals, key in item.properties
-      each val in vals
-        if typeof val === 'object'
-          +schema(val, key)
-        else if key == "url"
-          link(itemprop=key, href=val)
-        else
-          meta(itemprop=key, content=val)
+  div(itemprop=prop, itemscope, itemtype=item.type ? item.type.join(" ") : null)
+    if item.properties
+      each vals, key in item.properties
+        each val in vals
+          if typeof val === 'object'
+            +schema(val, key)
+          else if key == "url"
+            link(itemprop=key, href=val)
+          else
+            meta(itemprop=key, content=val)
 
 doctype html
 html(lang=metadata.general.lang)
@@ -25,10 +26,12 @@ html(lang=metadata.general.lang)
         meta(property="og:site_name", content=metadata.openGraph.site_name)
       if metadata.openGraph.url
         meta(property="og:url", content=metadata.openGraph.url)
+      else
+        meta(property="og:url", content=pretend)
       if metadata.openGraph.title
         meta(property="og:title", content=metadata.openGraph.title)
       if metadata.openGraph.image
-        if metadata.openGraph.url
+        if metadata.openGraph.image.url
           meta(property="og:image", content=metadata.openGraph.image.url)
       if metadata.openGraph.description
         meta(property="og:description" content=metadata.openGraph.description)
