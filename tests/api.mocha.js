@@ -9,14 +9,14 @@ describe('/api/create', () => {
       .post('/api/create')
       .send({
         name: 'test',
-        pretend: 'whoa'
+        pretend: 'https://youtu.be/WSUFzC6_fp8'
       })
       .expect('Content-Type', /json/)
       .expect(200)
       .then(res => {
         res.body.should.have.properties({
           name: 'test',
-          pretend: 'whoa'
+          pretend: 'https://youtu.be/WSUFzC6_fp8'
         });
       });
   });

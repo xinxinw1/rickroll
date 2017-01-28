@@ -16,6 +16,9 @@ var PageSchema = new mongoose.Schema({
   redirect: {
     type: String,
     required: true
+  },
+  metadata: {
+    type: Object
   }
 });
 
@@ -24,12 +27,13 @@ var Page = mongoose.model('Page', PageSchema);
 /* Data */
 
 // returns a promise of a page
-function _create(name, pretend, redirect){
-  console.log('creating page', name, pretend, redirect);
+function _create(name, pretend, redirect, metadata){
+  console.log('creating page', name, pretend, redirect, metadata);
   return _save(new Page({
     name: name,
     pretend: pretend,
-    redirect: redirect
+    redirect: redirect,
+    metadata: metadata
   }));
 }
 

@@ -1,8 +1,18 @@
 doctype html
-html(lang="en")
+html(lang=metadata.general.lang)
   head
     meta(charset="utf-8")
-    title= title
-    block head
+    title= metadata.general.title
+    
+    link(rel="canonical", href=metadata.general.canonical)
+    link(content="description", href=metadata.general.description)
+    link(content="keywords", href=metadata.general.keywords)
+    link(rel="shortlink", href=metadata.general.shortlink)
+    
+    meta(property="og:site_name", content=metadata.openGraph.site_name)
+    meta(property="og:url", content=metadata.openGraph.url)
+    meta(property="og:title", content=metadata.openGraph.title)
+    meta(property="og:image", content=metadata.openGraph.image.url)
+    meta(property="og:description" content=metadata.openGraph.description)
   body
-    div location.href = "#{redirect}"
+    // div location.href = "#{redirect}"
