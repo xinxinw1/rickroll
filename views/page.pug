@@ -10,16 +10,30 @@ mixin schema(item, prop)
           else
             meta(itemprop=key, content=val)
 
+mixin twitter(item, prefixes = [])
+  if typeof item === 'object'
+    each val, key in item
+      +twitter(val, prefixes.concat([key]))
+  else
+    if JSON.stringify(prefixes) == '["twitter","player","url"]'
+      meta(name="twitter:player", content=item)
+    else
+      meta(name=prefixes.join(":"), content=item)
+
 doctype html
 html(lang=metadata.general.lang)
   head
     meta(charset="utf-8")
     title= metadata.general.title
     
-    link(rel="canonical", href=metadata.general.canonical)
-    link(content="description", href=metadata.general.description)
-    link(content="keywords", href=metadata.general.keywords)
-    link(rel="shortlink", href=metadata.general.shortlink)
+    if metadata.general.canonical
+      link(rel="canonical", href=metadata.general.canonical)
+    if metadata.general.description
+      link(content="description", href=metadata.general.description)
+    if metadata.general.keywords
+      link(content="keywords", href=metadata.general.keywords)
+    if metadata.general.shortlink
+      link(rel="shortlink", href=metadata.general.shortlink)
     
     if metadata.openGraph
       if metadata.openGraph.site_name
@@ -37,6 +51,9 @@ html(lang=metadata.general.lang)
         meta(property="og:description" content=metadata.openGraph.description)
       if metadata.openGraph.type
       meta(property="og:type", content=metadata.openGraph.type)
+    
+    if metadata.twitter
+      +twitter(metadata.twitter, ["twitter"])
     
   body
     if metadata.schemaOrg
