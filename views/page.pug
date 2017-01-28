@@ -11,19 +11,21 @@ mixin schema(item, prop)
             meta(itemprop=key, content=val)
 
 doctype html
-html(lang=metadata.general.lang)
+html(lang=metadata.general && metadata.general.lang)
   head
     meta(charset="utf-8")
-    title= metadata.general.title
     
-    if metadata.general.canonical
-      link(rel="canonical", href=metadata.general.canonical)
-    if metadata.general.description
-      link(content="description", href=metadata.general.description)
-    if metadata.general.keywords
-      link(content="keywords", href=metadata.general.keywords)
-    if metadata.general.shortlink
-      link(rel="shortlink", href=metadata.general.shortlink)
+    if metadata.general
+      if metadata.general.title
+        title= metadata.general.title
+      if metadata.general.canonical
+        link(rel="canonical", href=metadata.general.canonical)
+      if metadata.general.description
+        link(content="description", href=metadata.general.description)
+      if metadata.general.keywords
+        link(content="keywords", href=metadata.general.keywords)
+      if metadata.general.shortlink
+        link(rel="shortlink", href=metadata.general.shortlink)
     
     if metadata.openGraph
       if metadata.openGraph.site_name
