@@ -3,10 +3,10 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-
+var validator = require('validator');
 var config = require('./config');
 var page = require('./helpers/page');
-var db = require('./helpers/db');
+var db = require('./models');
 
 /* Define variables */
 
@@ -17,19 +17,32 @@ app.set('view engine', 'pug');
 
 app.post('/api/create', bodyParser.json(), function (req, res){
   console.log("post to create", req.body);
-  page.create(req.body.name, req.body.pretend)
+  
+  var name = req.body.name;
+  var pretend = req.body.pretend;
+  
+  if (!(typeof name === 'string') || name === '') {
+    res.status(400).json({error: 'Invalid name'}).end();
+    return;
+  }
+  if (!(typeof pretend === 'string') || 
+      !validator.isURL(pretend)){
+    res.status(400).json({error: 'Invalid pretend address'}).end();
+    return;
+  }
+  
+  page.create(name, pretend)
     .then(json => {
-      console.log("post created", json);
-      res.json(json).end();
+      console.log('post created', name);
+      res.json({message: 'Success'}).end();
     })
     .catch(err => {
-      console.log("error", err);
-      if (err == 'Name already exists'){
-        res.status(409).send(err).end();
-      } else if (err == 'Invalid input'){
-        res.status(400).send(err).end();
+      // err must be an Error object
+      if (err.message == 'Name already exists'){
+        res.status(409).json({error: err.message}).end();
       } else {
-        res.status(500).send(err).end();
+        console.log('page create error', err);
+        res.status(500).json({error: err.message}).end();
       }
     });
 });
@@ -44,19 +57,6 @@ app.get('/:tag', function (req, res, next){
   console.log("getting tag", req.params.tag);
   page.get(req.params.tag)
     .then(page => res.render('page', page))
-    .catch(err => next());
-});
-
-app.get('/test/:tag', function (req, res, next){
-  console.log("getting test tag", req.params.tag);
-  page.get(req.params.tag)
-    .then(page => {
-      if (req.headers['user-agent'].includes('Twitterbot')) {
-        res.status(302).header('Location', page.pretend).end();
-      } else {
-        res.render('page', page);
-      }
-    })
     .catch(err => next());
 });
 
