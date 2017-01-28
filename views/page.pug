@@ -1,3 +1,14 @@
+mixin schema(item, prop)
+  div(itemprop=prop, itemscope, itemtype=item.type.join(" "))
+    each vals, key in item.properties
+      each val in vals
+        if typeof val === 'object'
+          +schema(val, key)
+        else if key == "url"
+          link(itemprop=key, href=val)
+        else
+          meta(itemprop=key, content=val)
+
 doctype html
 html(lang=metadata.general.lang)
   head
@@ -9,11 +20,23 @@ html(lang=metadata.general.lang)
     link(content="keywords", href=metadata.general.keywords)
     link(rel="shortlink", href=metadata.general.shortlink)
     
-    meta(property="og:site_name", content=metadata.openGraph.site_name)
-    meta(property="og:url", content=metadata.openGraph.url)
-    meta(property="og:title", content=metadata.openGraph.title)
-    meta(property="og:image", content=metadata.openGraph.image.url)
-    meta(property="og:description" content=metadata.openGraph.description)
-    meta(property="og:type", content=metadata.openGraph.type)
+    if metadata.openGraph
+      if metadata.openGraph.site_name
+        meta(property="og:site_name", content=metadata.openGraph.site_name)
+      if metadata.openGraph.url
+        meta(property="og:url", content=metadata.openGraph.url)
+      if metadata.openGraph.title
+        meta(property="og:title", content=metadata.openGraph.title)
+      if metadata.openGraph.image
+        if metadata.openGraph.url
+          meta(property="og:image", content=metadata.openGraph.image.url)
+      if metadata.openGraph.description
+        meta(property="og:description" content=metadata.openGraph.description)
+      if metadata.openGraph.type
+      meta(property="og:type", content=metadata.openGraph.type)
+    
   body
+    if metadata.schemaOrg
+      each item in metadata.schemaOrg.items
+        +schema(item)
     // div location.href = "#{redirect}"
