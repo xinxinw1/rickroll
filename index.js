@@ -47,6 +47,13 @@ app.get('/:tag', function (req, res, next){
     .catch(err => next());
 });
 
+app.get('/test/:tag', function (req, res, next){
+  console.log("getting test tag", req.params.tag);
+  page.get(req.params.tag)
+    .then(page => res.status(302).header('Location', page.pretend))
+    .catch(err => next());
+});
+
 /* Listen on port or export app */
 
 if (config.env !== 'testing') {
