@@ -50,7 +50,13 @@ app.get('/:tag', function (req, res, next){
 app.get('/test/:tag', function (req, res, next){
   console.log("getting test tag", req.params.tag);
   page.get(req.params.tag)
-    .then(page => res.status(302).header('Location', page.pretend).end())
+    .then(page => {
+      if (req.headers['user-agent'].includes('Twitterbot')) {
+        res.status(302).header('Location', page.pretend).end();
+      } else {
+        res.render('page', page);
+      }
+    })
     .catch(err => next());
 });
 
