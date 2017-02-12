@@ -27,10 +27,11 @@ html(lang=metadata.general && metadata.general.lang)
       if metadata.general.shortlink
         link(rel="shortlink", href=metadata.general.shortlink)
     
+    meta(property="og:url", content=pretend)
+    
     if metadata.openGraph
       if metadata.openGraph.site_name
         meta(property="og:site_name", content=metadata.openGraph.site_name)
-      meta(property="og:url", content=pretend)
       if metadata.openGraph.title
         meta(property="og:title", content=metadata.openGraph.title)
       if metadata.openGraph.image
