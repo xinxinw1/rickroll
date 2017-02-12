@@ -18,31 +18,8 @@ html(lang=metadata.general && metadata.general.lang)
     if metadata.general
       if metadata.general.title
         title= metadata.general.title
-      if metadata.general.description
-        link(content="description", href=metadata.general.description)
-      if metadata.general.keywords
-        link(content="keywords", href=metadata.general.keywords)
     
     meta(property="og:url", content=pretend)
-    
-    if metadata.openGraph
-      if metadata.openGraph.site_name
-        meta(property="og:site_name", content=metadata.openGraph.site_name)
-      if metadata.openGraph.title
-        meta(property="og:title", content=metadata.openGraph.title)
-      if metadata.openGraph.image
-        if metadata.openGraph.image.url
-          meta(property="og:image", content=metadata.openGraph.image.url)
-      if metadata.openGraph.description
-        meta(property="og:description" content=metadata.openGraph.description)
-      if metadata.openGraph.type
-        meta(property="og:type", content=metadata.openGraph.type)
-      if metadata.openGraph.updated_time
-        meta(property="og:updated_time", content=metadata.openGraph.published_time)
-      if metadata.openGraph.published_time
-        meta(property="article:published_time", content=metadata.openGraph.published_time)
-      if metadata.openGraph.modified_time
-        meta(property="article:modified_time", content=metadata.openGraph.modified_time)
     
     if metadata.twitter
       meta(name="twitter:card", content="summary")
