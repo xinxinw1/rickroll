@@ -49,7 +49,7 @@ app.post('/api/create', bodyParser.json(), function (req, res){
 
 /* Route for static pages */
 
-app.use(express.static(__dirname + '/../rickroll-client/dist'));
+app.use(express.static(__dirname + '/../rickroll-client/src'));
 
 /* Route for page */
 

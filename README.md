@@ -4,7 +4,9 @@ Generates rickroll pages.
 
 ## Test sites
 
-* uwaterloo.ca
-* twitter.com
-* https://www.youtube.com/watch?v=WSUFzC6_fp8
-* https://www.reddit.com/r/politics/comments/5tluzq/the_spy_revolt_against_trump_begins
+* /me xin-xin.me
+* /wat uwaterloo.ca
+* /twit twitter.com
+* /carol https://www.youtube.com/watch?v=WSUFzC6_fp8
+* /obs https://www.reddit.com/r/politics/comments/5tluzq/the_spy_revolt_against_trump_begins
+* /moz https://developer.mozilla.org/en/docs/Web/HTML/Element/picture
